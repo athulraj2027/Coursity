@@ -22,11 +22,10 @@ export default async function signinHandler(data: {
       toast.error("Failed to sign in");
       return;
     }
-    toast.success("Signed in successfully");
+
     return res;
   } catch (error) {
     console.log("Error in signing in the user : ", error);
     toast.error("Signin failed");
-    
   }
 }

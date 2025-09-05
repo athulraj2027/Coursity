@@ -3,7 +3,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="flex w-full justify-between py-10 px-5 bg-black text-white ">
+    <div className="flex w-full justify-between py-10 px-5 bg-black text-white bottom-0">
       <Link href={`/`}>
         <h1 className="text-2xl font-extrabold cursor-pointer hover:underline">
           Coursity.

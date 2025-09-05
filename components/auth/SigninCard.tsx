@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import toast from "react-hot-toast";
 import signinHandler from "@/actions/auth/signinHandler";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const SigninCard = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ const SigninCard = () => {
   const [role, setRole] = useState("student");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const signinFunction = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,8 +37,9 @@ const SigninCard = () => {
       if (result?.success === true) {
         localStorage.setItem("token", result.token);
         localStorage.setItem("user", JSON.stringify(result.user));
-        toast.success("Signed in successfully");
+        setUser(result.user);
         router.push("/");
+        toast.success("Signed in successfully");
       } else return;
     } catch (error) {
       console.log("Error in signing in : ", error);

@@ -32,6 +32,7 @@ export default function verifySigninForm(data: {
     return true;
   } catch (error) {
     toast.error("Verifying form failed");
+    console.log("Error in verifying the form : ", error);
     return false;
   }
 }

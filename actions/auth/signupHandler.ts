@@ -34,5 +34,4 @@ export default async function signupHandler(
   } catch (error) {
     console.log("error in creating account : ", error);
   }
-  
 }

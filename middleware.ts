@@ -6,7 +6,6 @@ export default async function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
   const { pathname } = req.nextUrl;
   const publicRoutes = ["/sign-in", "/sign-up", "/"];
-  console.log("token : ", token);
 
   if (!token) {
     if (publicRoutes.some((route) => pathname === route)) {

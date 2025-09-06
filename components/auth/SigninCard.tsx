@@ -38,7 +38,7 @@ const SigninCard = () => {
         localStorage.setItem("token", result.token);
         localStorage.setItem("user", JSON.stringify(result.user));
         setUser(result.user);
-        router.push("/");
+        router.replace(`/${result.user.role.toLowerCase()}`);
         toast.success("Signed in successfully");
       } else return;
     } catch (error) {

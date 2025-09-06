@@ -11,9 +11,10 @@ export async function POST(req: NextRequest) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
-    await prisma.otp.deleteMany({ where: { email } });
-    await prisma.otp.create({
-      data: { email, code: otp, expiresAt },
+    await prisma.otp.upsert({
+      where: { email },
+      update: { code: otp, expiresAt },
+      create: { email, code: otp, expiresAt },
     });
 
     await sendOtpEmail(email, otp);

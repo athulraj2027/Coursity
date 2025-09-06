@@ -21,19 +21,97 @@ enum Role{
 }
 
 model User {
-  id         String       @id @default(uuid())
-  username   String
-  email      String       @unique
-  password   String
-  role       Role         @default(STUDENT)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id              String            @id @default(uuid())
+  username        String
+  email           String            @unique
+  password        String
+  role            Role              @default(STUDENT)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  studentProfile  StudentProfile?
+  teacherProfile  TeacherProfile?
+  adminProfile    AdminProfile?
+}
+
+model StudentProfile {
+  id              String            @id @default(uuid())
+  userId          String            @unique
+  user            User              @relation(fields: [userId], references: [id])
+
+  enrollments     Enrollment[]
+}
+
+model TeacherProfile {
+  id              String            @id @default(uuid())
+  userId          String            @unique
+  bio             String? 
+  expertise       String?  
+  experience      Int?
+  verifyStatus    Boolean           @default(false)
+  user            User              @relation(fields: [userId], references: [id])
+
+  courses         Course[]
+}
+
+model AdminProfile {
+  id              String            @id @default(uuid())
+  userId          String            @unique
+  department      String? 
+  phone           String?  
+  user            User              @relation(fields: [userId], references: [id])
 }
 
 model Otp {
-  id         String       @id @default(uuid())
-  email      String       @unique
-  code       String
-  expiresAt  DateTime
-  createdAt  DateTime     @default(now())
+  id              String            @id @default(uuid())
+  email           String            @unique
+  code            String
+  expiresAt       DateTime
+  createdAt       DateTime          @default(now())
+}
+
+model Course {
+  id              String            @id @default(uuid())
+  name            String            @unique
+  description     String
+  price           Int
+  startDate       DateTime        
+  numberOfClasses Int
+  totalHours      Int           
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  teacherId       String
+  teacher         TeacherProfile    @relation(fields: [teacherId], references: [id])
+  enrollments     Enrollment[]
+  lectures        Lecture[]       
+}
+
+
+model Enrollment {
+  id              String            @id @default(uuid())
+  studentId       String
+  courseId        String
+  status          EnrollmentStatus  @default(ACTIVE)
+  enrolledAt      DateTime          @default(now())
+
+  student         StudentProfile    @relation(fields: [studentId], references: [id])
+  course          Course            @relation(fields: [courseId], references: [id])
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Lecture {
+  id              String            @id @default(uuid())
+  courseId        String
+  title           String
+  startTime       DateTime
+  endTime         DateTime?
+  meetingId       String  
+
+  course          Course            @relation(fields: [courseId], references: [id])
 }

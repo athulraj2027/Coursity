@@ -1,4 +1,4 @@
-import VerifyCreateCourseForm from "./VerifyCreateCourseForm";
+import toast from "react-hot-toast";
 
 interface CourseFormData {
   name: string;
@@ -9,21 +9,29 @@ interface CourseFormData {
   totalHours: string;
 }
 
-export default async function CreateCourseHandler(data: CourseFormData) {
-  if (!VerifyCreateCourseForm(data)) return;
-
+export default async function CreateCourseHandler(
+  data: CourseFormData,
+  setIsConfirmationVisible: React.Dispatch<React.SetStateAction<boolean>>
+) {
   try {
-    const res = await fetch(`/api/course/create`, {
+    const res = await fetch(`/api/course`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(data),
+      credentials: "include",
     });
 
+    const result = await res.json();
+
     if (!res.ok) {
+      return toast.error(result.error || "Failed to create course");
     }
+    toast.success("Course created successfully");
+    window.location.href = "/teacher";
   } catch (error) {
     console.error("Error in creating course : ", error);
     return;
+  } finally {
+    setIsConfirmationVisible(false);
   }
-  return;
 }

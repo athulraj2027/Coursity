@@ -4,6 +4,7 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import ConfirmationCard from "../ConfirmationCard";
 import CreateCourseHandler from "@/actions/teacherActions/CreateCourseHandler";
+import VerifyCreateCourseForm from "@/actions/teacherActions/VerifyCreateCourseForm";
 
 interface CourseFormData {
   name: string;
@@ -34,7 +35,7 @@ const CreateCourseForm = () => {
       totalHours,
     };
     setData(formData);
-
+    if (!VerifyCreateCourseForm(formData)) return;
     setIsConfirmationVisible(true);
   };
 
@@ -129,7 +130,9 @@ const CreateCourseForm = () => {
       </div>
       {isConfirmationVisible && (
         <ConfirmationCard<CourseFormData>
-          onConfirm={CreateCourseHandler}
+          onConfirm={async (formData) => {
+            await CreateCourseHandler(formData, setIsConfirmationVisible);
+          }}
           setIsConfirmationVisible={setIsConfirmationVisible}
           question={`Are you sure to create this course ?`}
           data={data}

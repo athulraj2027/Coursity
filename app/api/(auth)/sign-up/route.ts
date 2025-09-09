@@ -34,6 +34,19 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    if (role.toUpperCase() === "TEACHER") {
+      await prisma.teacherProfile.create({
+        data: {
+          userId: newUser.id,
+        },
+      });
+    } else if (role.toUpperCase() === "STUDENT") {
+      await prisma.studentProfile.create({
+        data: {
+          userId: newUser.id,
+        },
+      });
+    } else return NextResponse.json({ error: "Invalid role" }, { status: 400 });
     return NextResponse.json({ message: "User created", user: newUser });
   } catch (error) {
     console.log("error in signing up user : ", error);

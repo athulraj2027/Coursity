@@ -98,7 +98,7 @@ model Enrollment {
   student         StudentProfile    @relation(fields: [studentId], references: [id])
   course          Course            @relation(fields: [courseId], references: [id])
 }
-
+  
 enum EnrollmentStatus {
   ACTIVE
   COMPLETED
@@ -112,6 +112,5 @@ model Lecture {
   startTime       DateTime
   endTime         DateTime?
   meetingId       String  
-
   course          Course            @relation(fields: [courseId], references: [id])
 }

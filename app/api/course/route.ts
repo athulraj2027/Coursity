@@ -57,3 +57,20 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const courses = await prisma.course.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { teacher: true },
+    });
+
+    return NextResponse.json(courses);
+  } catch (error) {
+    console.log("Error in fetching courses : ", error);
+    return NextResponse.json(
+      { error: "Server error in fetching courses" },
+      { status: 500 }
+    );
+  }
+}

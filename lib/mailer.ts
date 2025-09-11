@@ -21,3 +21,18 @@ export async function sendOtpEmail(to: string, otp: string) {
 
   await transporter.sendMail(mailOptions);
 }
+
+export async function sendReceipt(
+  studentEmail: string,
+  courseName: string,
+  amount: number
+) {
+  const mailOptions = {
+    from: `"Coursity" <${process.env.EMAIL_USER}>`,
+    to: studentEmail,
+    subject: "Payment Receipt",
+    text: `You have successfully enrolled in ${courseName}. Amount: ₹${amount}`,
+  };
+
+  await transporter.sendMail(mailOptions);
+}

@@ -1,3 +1,4 @@
+import { loadRazorpay } from "@/helpers/loadRazorpay";
 import toast from "react-hot-toast";
 
 export async function fetchCoursesHandler() {
@@ -30,14 +31,11 @@ export async function fetchCourseHandler(id: string) {
     });
 
     if (!res.ok) {
-      
       let errorMessage = "Failed to fetch course data";
       try {
         const errorData = await res.json();
         errorMessage = errorData.error || errorMessage;
-      } catch {
-       
-      }
+      } catch {}
       toast.error(errorMessage);
       throw new Error(errorMessage);
     }
@@ -47,5 +45,68 @@ export async function fetchCourseHandler(id: string) {
   } catch (error) {
     console.error("Error in fetching course  : ", error);
     throw new Error("Server error in fetching course");
+  }
+}
+
+export async function paymentHandler({
+  courseId,
+  amount,
+  studentId,
+  router,
+}: {
+  courseId: string;
+  amount: number;
+  studentId: string;
+  router: any;
+}) {
+  try {
+    console.log("studentId : ", studentId);
+    const loaded = await loadRazorpay();
+    if (!loaded) {
+      toast.error("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    const res = await fetch("/api/payment/create-order", {
+      method: "POST",
+      body: JSON.stringify({ amount }),
+    });
+
+    const order = await res.json();
+
+    const options = {
+      key: process.env.NEXT_PUBLIC_RZP_KEY_ID,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Coursity.",
+      description: "Course Purchase",
+      order_id: order.id,
+      handler: async function (response: any) {
+        // Step 3: Call backend to verify payment
+        await fetch("/api/payment/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...response,
+            courseId,
+            userId: studentId,
+            amount,
+          }),
+        });
+        toast.success("Course purchased successfully");
+        router.push("/student/courses");
+      },
+      prefill: {
+        name: "Student Name",
+        email: "student@example.com",
+      },
+      theme: { color: "#0fbcf9" },
+    };
+    console.log("hi");
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.log("Error in payment : ", error);
+    throw new Error("Payment handler failed");
   }
 }

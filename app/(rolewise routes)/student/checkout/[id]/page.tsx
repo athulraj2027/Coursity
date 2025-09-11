@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useParams } from "next/navigation";
-import { fetchCourseHandler } from "@/actions/studentActions";
+import { useParams, useRouter } from "next/navigation";
+import { fetchCourseHandler, paymentHandler } from "@/actions/studentActions";
+import { useAuth } from "@/context/AuthContext";
 
 export interface User {
   id: string;
@@ -39,7 +40,9 @@ export interface Course {
 }
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const { id } = useParams();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState<Course>();
 
@@ -94,19 +97,27 @@ export default function CheckoutPage() {
             <span>Course Price</span>
             <span>₹ {course.price.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between">
-            <span>GST (18%)</span>
-            <span>₹ {(course.price * 0.18).toFixed(0)}</span>
-          </div>
+
           <div className="flex justify-between font-semibold text-lg border-t pt-2">
             <span>Total</span>
-            <span>₹ {(course.price * 1.18).toFixed(0)}</span>
+            <span>₹ {course.price.toLocaleString()}</span>
           </div>
         </div>
 
         {/* Payment Button */}
         <div className="mt-6">
-          <Button className="w-full text-lg py-6" disabled={loading}>
+          <Button
+            className="w-full text-lg py-6"
+            disabled={loading}
+            onClick={async () =>
+              await paymentHandler({
+                courseId: course.id,
+                amount: course.price,
+                studentId: user?.id,
+                router
+              })
+            }
+          >
             {loading ? "Processing..." : "Proceed to Pay with Razorpay"}
           </Button>
         </div>

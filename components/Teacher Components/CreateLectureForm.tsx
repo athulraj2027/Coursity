@@ -6,19 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import CreateLectureHandler from "@/actions/teacherActions/CreateLectureHandler";
-import { useRouter } from "next/navigation";
 import { verifyCreateLectureForm } from "@/actions/teacherActions/VerifyCreateLectureForm";
 import toast from "react-hot-toast";
 
 export default function CreateLectureForm({
   setState,
   courseId,
+  onSuccess,
 }: {
   setState: (v: boolean) => void;
   courseId: string;
+  onSuccess: (lecture: any) => void;
 }) {
-  const router = useRouter();
-
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const [startTime, setStartTime] = useState("");
@@ -37,16 +36,16 @@ export default function CreateLectureForm({
       setLoading(false);
       return;
     }
-    const lecture = await CreateLectureHandler({
+    const result = await CreateLectureHandler({
       courseId,
       title,
       startTime: new Date(startTime),
       endTime: endTime ? new Date(endTime) : undefined,
     });
 
-    if (lecture) {
+    if (result) {
+      onSuccess(result.lecture);
       setState(false); // close modal
-      router.refresh(); // refresh lectures list
     }
 
     setLoading(false);

@@ -10,7 +10,7 @@ const TeacherNavbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="w-full bg-black text-white font-semibold">
+    <nav className="w-full bg-white text-gray-600 border border-t-gray-300">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-end sm:justify-center  items-center h-12">
           {/* Desktop Menu */}

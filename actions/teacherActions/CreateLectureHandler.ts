@@ -30,6 +30,7 @@ export default async function CreateLectureHandler({
       throw new Error("Failed to create lecture");
     }
 
+    
     toast.success("Lecture created successfully");
     return result; // lecture object
   } catch (error) {

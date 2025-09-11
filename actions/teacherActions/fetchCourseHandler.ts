@@ -11,11 +11,20 @@ export default async function fetchCourseHandler(id: string) {
     const result = await res.json();
 
     if (!res.ok) {
-      return toast.error(result.error);
+      toast.error(result.error);
+      return null; // Return null instead of toast result
     }
 
-    return result.course;
+    console.log("res : ", result);
+
+    // Since your component expects { course: [...] }, return the full result
+    return result; // ✅ This returns { course: [courseData] }
+
+    // OR if you want to return just the course data:
+    // return { course: result.course }; // Same thing
   } catch (error) {
     console.log("Failed to fetch course : ", error);
+    toast.error("Failed to fetch course");
+    return null; // Return null on error instead of undefined
   }
 }

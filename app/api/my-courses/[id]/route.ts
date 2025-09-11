@@ -1,12 +1,15 @@
 import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
-export async function GET({ params }: { params: { id: string } }) {
-  const { id } = await params;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
@@ -26,7 +29,8 @@ export async function GET({ params }: { params: { id: string } }) {
       where: { userId },
       include: {
         courses: {
-          where: { id }, // 👈 only fetch the specific course
+          where: { id },
+          include: { lectures: true },
         },
       },
     });

@@ -57,6 +57,14 @@ const TeacherNavbar = () => {
             </li>
             <li>
               <Link
+                href={`/teacher/wallet`}
+                className="hover:text-gray-300 transition-colors duration-300 ease-in-out"
+              >
+                Wallet
+              </Link>
+            </li>
+            <li>
+              <Link
                 href={`/teacher/my-profile`}
                 className="hover:text-gray-300 transition-colors duration-300 ease-in-out"
               >
@@ -77,7 +85,7 @@ const TeacherNavbar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="sm:hidden bg-black border-t border-gray-700 ">
+        <div className="sm:hidden bg-white border-t border-gray-700 ">
           <ul className="flex flex-col gap-4 p-4">
             <li>
               <Link href={`/teacher`} onClick={toggleMenu}>
@@ -102,6 +110,11 @@ const TeacherNavbar = () => {
             <li>
               <Link href={`/teacher/upcoming-classes`} onClick={toggleMenu}>
                 Upcoming Classes
+              </Link>
+            </li>
+            <li>
+              <Link href={`/teacher/wallet`} onClick={toggleMenu}>
+                Wallet
               </Link>
             </li>
             <li>

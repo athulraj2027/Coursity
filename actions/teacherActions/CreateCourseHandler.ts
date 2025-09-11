@@ -11,7 +11,6 @@ interface CourseFormData {
 
 export default async function CreateCourseHandler(
   data: CourseFormData,
-  setIsConfirmationVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   try {
     const res = await fetch(`/api/course`, {
@@ -31,7 +30,5 @@ export default async function CreateCourseHandler(
   } catch (error) {
     console.error("Error in creating course : ", error);
     return;
-  } finally {
-    setIsConfirmationVisible(false);
   }
 }

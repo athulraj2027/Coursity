@@ -31,7 +31,19 @@ function ConfirmationCard<T>({
           <p>{question}</p>
         </CardContent>
         <CardFooter className="flex gap-5 justify-end">
-          <Button onClick={() => onConfirm(data)}>Confirm</Button>
+          <Button
+            onClick={async () => {
+              try {
+                await onConfirm(data);
+                setIsConfirmationVisible(false); // close only if successful
+              } catch (error) {
+                console.error("Confirmation failed:", error);
+                // optionally show a toast or error message
+              }
+            }}
+          >
+            Confirm
+          </Button>
           <Button
             variant="outline"
             onClick={() => setIsConfirmationVisible(false)}

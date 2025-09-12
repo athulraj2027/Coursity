@@ -61,7 +61,7 @@ export default function MyLearningPage() {
                     </p>
 
                     <div className="flex flex-col gap-2 mt-3">
-                      <Link href={`/student/my-learning/${course.id}`}>
+                      <Link href={`/student/my-learning/${enrollment.id}`}>
                         <Button className="w-full">View Course</Button>
                       </Link>
                     </div>

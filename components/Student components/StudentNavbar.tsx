@@ -32,10 +32,10 @@ const StudentNavbar = () => {
             </li>
             <li>
               <Link
-                href={`/student/enrolled-courses`}
+                href={`/student/my-learning`}
                 className="hover:text-gray-300 transition-colors duration-300 ease-in-out"
               >
-                Enrolled Courses
+                My Learning
               </Link>
             </li>
             <li>

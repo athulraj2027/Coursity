@@ -94,7 +94,6 @@ model Enrollment {
   courseId        String
   status          EnrollmentStatus  @default(ACTIVE)
   enrolledAt      DateTime          @default(now())
-
   student         StudentProfile    @relation(fields: [studentId], references: [id])
   course          Course            @relation(fields: [courseId], references: [id])
 }

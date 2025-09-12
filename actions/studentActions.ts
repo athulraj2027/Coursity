@@ -110,3 +110,26 @@ export async function paymentHandler({
     throw new Error("Payment handler failed");
   }
 }
+
+export async function fetchLearningHandler(id: string) {
+  try {
+    const res = await fetch(`/api/my-learning/${id}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const errorMsg = await res.json();
+      toast.error(errorMsg.error || "Failed to fetch.Please try again");
+      throw new Error("Fetching failed");
+    }
+
+    const learnings = await res.json();
+    return learnings;
+  } catch (error) {
+    console.log("Error in fetching learnnigs : ", error);
+    toast.error("Please refresh the page");
+    throw new Error("Fetching learnings failed");
+  }
+}

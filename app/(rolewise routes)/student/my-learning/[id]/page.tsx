@@ -129,7 +129,8 @@ export default function MyLearningPage() {
                   <div className="mt-3">
                     <Link
                       href={`/lecture/${lecture.meetingId}`}
-                      className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Join Lecture
                     </Link>

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev ",
+    "dev": "nodemon server.js ",
     "build": "next build --turbopack",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "lint": "eslint"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "lucide-react": "^0.542.0",
     "next": "15.5.2",
     "nodemailer": "^7.0.6",
+    "nodemon": "^3.1.10",
     "razorpay": "^2.9.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",

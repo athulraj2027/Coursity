@@ -14,7 +14,7 @@ const TeacherNavbar = () => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-end sm:justify-center  items-center h-12">
           {/* Desktop Menu */}
-          <ul className="hidden sm:flex gap-7">
+          <ul className="hidden md:flex gap-7">
             <li>
               <Link
                 href={`/teacher`}
@@ -76,7 +76,7 @@ const TeacherNavbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="sm:hidden transition-transform ease-in-out focus:outline-none"
+            className="md:hidden transition-transform ease-in-out focus:outline-none"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -85,7 +85,7 @@ const TeacherNavbar = () => {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="sm:hidden bg-white border-t border-gray-700 ">
+        <div className="md:hidden bg-white border-t border-gray-700 ">
           <ul className="flex flex-col gap-4 p-4">
             <li>
               <Link href={`/teacher`} onClick={toggleMenu}>
